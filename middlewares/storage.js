@@ -1,5 +1,9 @@
-module.exports = () => (req,res,next)=>{
-    //TODO import and decorate services
+const crypto = require("../services/crypto");
 
-    req.storage = {}
-}
+module.exports = () => (req, res, next) => {
+  req.storage = {
+    ...crypto,
+  };
+
+  next();
+};
