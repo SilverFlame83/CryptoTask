@@ -3,11 +3,11 @@ const { isUser } = require("../middlewares/guards");
 const { parseError } = require("../util/parsers");
 const user = require("../services/user");
 
-router.get('/catalog', async(req,res)=>{
-    const cryptos = await req.storage.getAllCrypto();
+router.get("/catalog", async (req, res) => {
+  const cryptos = await req.storage.getAllCrypto();
 
-    res.render('catalog', {cryptos});
-})
+  res.render("catalog", { cryptos });
+});
 
 router.get("/create", (req, res) => {
   res.render("create");
@@ -44,8 +44,38 @@ router.post("/create", isUser(), async (req, res) => {
   }
 });
 
-router.get('/details', async(req,res)=>{
-  res.render('details')
-})
+router.get("/details/:id", async (req, res) => {
+  const crypto = await req.storage.getCryptoById(req.params.id);
+
+  crypto.isOwner = req.user && req.user._id == crypto.owner._id;
+  crypto.isNotOwner = req.user && req.user._id != crypto.owner._id;
+  crypto.bought = req.user && crypto.boughtBy.find((u) => u == req.user._id);
+
+  res.render("details", { crypto });
+});
+
+router.get("/delete/:id", async (req, res) => {
+  try {
+    await req.storage.deleteCrypto(req.params.id);
+    res.redirect("/crypto/catalog");
+  } catch (err) {
+    console.log(err.message);
+    res.redirect("/crypto/details/" + req.params.id);
+  }
+});
+
+router.get('/buy/:id', isUser(), async (req,res)=>{
+  try {
+      //const buy = await req.storage.getGameById(req.params.id);
+      
+      //console.log('User',req.user)
+      await req.storage.buyCrypto(req.params.id, req.user._id);
+    
+      res.redirect('/crypto/details/' + req.params.id);
+  } catch (err) {
+      console.log('Éroor',err.message);
+      res.redirect('/crypto/details/'+ req.params.id)
+  }
+});
 
 module.exports = router;
