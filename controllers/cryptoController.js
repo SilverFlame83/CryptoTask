@@ -44,4 +44,8 @@ router.post("/create", isUser(), async (req, res) => {
   }
 });
 
+router.get('/details', async(req,res)=>{
+  res.render('details')
+})
+
 module.exports = router;
