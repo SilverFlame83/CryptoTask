@@ -113,5 +113,27 @@ router.get('/search', async(req,res)=>{
   const cryptos = await req.storage.getAllCrypto();
 
   res.render("search", { cryptos });
+});
+
+router.post('/search', async(req,res)=>{
+  try{
+    const filter = await req.storage.getAllCrypto();
+    const searchName = req.body.search;
+    const paymentMethod = req.body.payment;
+    let cryptos = [];
+
+    for (let crypto of filter){
+      if(searchName.toLowerCase()== crypto.name.toLowerCase() && paymentMethod.toLowerCase() == crypto.payment.toLowerCase()){
+        cryptos.push(crypto)
+      }
+    }
+
+    // console.log(cryptos)
+
+    // res.redirect('/crypto/search')
+    res.render('search', {cryptos})
+  }catch(err){
+    console.log(err.message)
+  }
 })
 module.exports = router;

@@ -17,9 +17,13 @@
     <button type="submit" class="btn-search">Search</button>
   </form>
 {{#if cryptos}}
+ <div class="search-result">
+  <div class="search-list">
 {{#each cryptos}}
- {{> search}}
+{{> crypto}}
   {{/each}}
+  </div>
+</div>
   {{else}}
    <div class="no-match">
       <p>No match was found!</p>

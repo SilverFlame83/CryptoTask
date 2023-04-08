@@ -1,50 +1,66 @@
-const Crypto = require('../models/Crypto');
+const Crypto = require("../models/Crypto");
 
-async function getAllCrypto(){
-    return Crypto.find().populate('owner').lean();
+async function getAllCrypto() {
+  return Crypto.find().populate("owner").lean();
 }
 
-async function getCryptoById(id){
-    return Crypto.findById(id).populate('owner').lean();
+async function getCryptoById(id) {
+  return Crypto.findById(id).populate("owner").lean();
 }
 
-async function createCrypto(cryptoData){
-    const crypto = new Crypto(cryptoData);
+async function createCrypto(cryptoData) {
+  const crypto = new Crypto(cryptoData);
 
-    await crypto.save();
+  await crypto.save();
 
-    return crypto;
+  return crypto;
 }
 
-async function editCrypto(id, cryptoData){
-    const crypto = await Crypto.findById(id);
+async function editCrypto(id, cryptoData) {
+  const crypto = await Crypto.findById(id);
 
-    crypto.name = cryptoData.name;
-    crypto.imageUrl = cryptoData.imageUrl;
-    crypto.price = cryptoData.price;
-    crypto.description = cryptoData.description;
-    crypto.payment = cryptoData.payment;
+  crypto.name = cryptoData.name;
+  crypto.imageUrl = cryptoData.imageUrl;
+  crypto.price = cryptoData.price;
+  crypto.description = cryptoData.description;
+  crypto.payment = cryptoData.payment;
 
-    return crypto.save();
+  return crypto.save();
 }
 
-async function deleteCrypto(id){
-    return Crypto.findByIdAndDelete(id);
+async function deleteCrypto(id) {
+  return Crypto.findByIdAndDelete(id);
 }
 
-async function buyCrypto(cryptoId, userId){
-    const crypto = await Crypto.findById(cryptoId);
+async function buyCrypto(cryptoId, userId) {
+  const crypto = await Crypto.findById(cryptoId);
 
-    crypto.boughtBy.push(userId);
+  crypto.boughtBy.push(userId);
 
-    return crypto.save();
+  return crypto.save();
 }
+
+// async function searchCrypto(cryptoName, payment) {
+//   const cryptos = await Crypto.find().lean();
+//   let filteredSearch = [];
+
+//   for (let crypto of cryptos) {
+//     // if (
+//     //   crypto.name.toLowerCase() == cryptoName.toLowerCase().trim() &&
+//     //   crypto.payment.toLowerCase() == payment.toLowerCase()
+//     // ) {
+//     //   filteredSearch.push(crypto);
+//     // }
+//     console.log( crypto) 
+//   }
+//   //return filteredSearch;
+// }
 
 module.exports = {
-    getAllCrypto,
-    getCryptoById,
-    createCrypto,
-    editCrypto,
-    deleteCrypto,
-    buyCrypto
-}
+  getAllCrypto,
+  getCryptoById,
+  createCrypto,
+  editCrypto,
+  deleteCrypto,
+  buyCrypto
+};
