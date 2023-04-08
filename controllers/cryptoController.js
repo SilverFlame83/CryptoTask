@@ -109,4 +109,9 @@ router.get("/buy/:id", isUser(), async (req, res) => {
   }
 });
 
+router.get('/search', async(req,res)=>{
+  const cryptos = await req.storage.getAllCrypto();
+
+  res.render("search", { cryptos });
+})
 module.exports = router;
