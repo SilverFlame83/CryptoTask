@@ -40,22 +40,6 @@ async function buyCrypto(cryptoId, userId) {
   return crypto.save();
 }
 
-// async function searchCrypto(cryptoName, payment) {
-//   const cryptos = await Crypto.find().lean();
-//   let filteredSearch = [];
-
-//   for (let crypto of cryptos) {
-//     // if (
-//     //   crypto.name.toLowerCase() == cryptoName.toLowerCase().trim() &&
-//     //   crypto.payment.toLowerCase() == payment.toLowerCase()
-//     // ) {
-//     //   filteredSearch.push(crypto);
-//     // }
-//     console.log( crypto) 
-//   }
-//   //return filteredSearch;
-// }
-
 module.exports = {
   getAllCrypto,
   getCryptoById,

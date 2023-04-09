@@ -128,9 +128,6 @@ router.post('/search', async(req,res)=>{
       }
     }
 
-    // console.log(cryptos)
-
-    // res.redirect('/crypto/search')
     res.render('search', {cryptos})
   }catch(err){
     console.log(err.message)
